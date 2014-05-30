@@ -11,8 +11,24 @@ angular.module('meanIssue', [
 	]).
 config(['$routeProvider', function($routeProvider) {
 	$routeProvider.when('/', {templateUrl: 'partials/lista.html', controller: 'ListaCtrl'});
-	$routeProvider.when('/ver/:id', {templateUrl: 'partials/verIncidencia.html', controller: 'VistaCtrl'});
-	$routeProvider.when('/editar/:id', {templateUrl: 'partials/formIncidencia.html', controller: 'EdicionCtrl'});
+	$routeProvider.when('/ver/:id', {
+		templateUrl: 'partials/verIncidencia.html',
+		controller: 'VistaCtrl',
+		resolve: {
+			idIncidencia: ['$route', function($route){
+				return $route.current.params.id;
+			}]
+		}
+	});
+	$routeProvider.when('/editar/:id', {
+		templateUrl: 'partials/formIncidencia.html',
+		controller: 'EdicionCtrl',
+		resolve: {
+			idIncidencia: ['$route', function($route){
+				return $route.current.params.id;
+			}]
+		}
+	});
 	$routeProvider.when('/nueva', {templateUrl: 'partials/formIncidencia.html', controller: 'NuevaCtrl'});  
 	$routeProvider.otherwise({redirectTo: '/'});
 }]);

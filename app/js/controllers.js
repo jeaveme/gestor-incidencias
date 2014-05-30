@@ -9,9 +9,9 @@ angular.module('meanIssue.controllers', [])
 		$scope.incidencias = data;
 	});
 }])
-.controller('VistaCtrl', ['$scope', '$http','$route', '$location',
-	function($scope, $http, $route, $location) {
-		$http({method: 'GET', url: '/incidencias/'+$route.current.params.id}).
+.controller('VistaCtrl', ['$scope', '$http', '$location', 'idIncidencia',
+	function($scope, $http, $location, idIncidencia) {
+		$http({method: 'GET', url: '/incidencias/'+idIncidencia}).
 		success(function(data, status, headers, config) {
 			$scope.incidencia = data;
 			
@@ -27,9 +27,9 @@ angular.module('meanIssue.controllers', [])
 			};
 		});
 	}])
-.controller('EdicionCtrl', ['$scope', '$http', '$route', '$location',
-	function($scope, $http, $route, $location) {
-		$http({method: 'GET', url: '/incidencias/'+$route.current.params.id}).
+.controller('EdicionCtrl', ['$scope', '$http', '$location', 'idIncidencia',
+	function($scope, $http, $location, idIncidencia) {
+		$http({method: 'GET', url: '/incidencias/'+idIncidencia}).
 		success(function(data, status, headers, config) {
 			$scope.incidencia = data;
 
