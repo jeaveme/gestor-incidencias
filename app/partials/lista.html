@@ -1,0 +1,11 @@
+<div class="input-group" id="filtro">
+	<span class="input-group-addon glyphicon glyphicon-filter"></span>
+	<input type="text" class="form-control" placeholder="Filtrar" ng-model="filtro">
+</div>
+
+<ul class="list-group">
+	<li ng-repeat="incidencia in incidencias | filter: filtro"
+		class="item-lista list-group-item">
+		<div><a ng-href="#/ver/{{incidencia._id}}">{{incidencia.titulo}}</a>  por {{incidencia.autor}}</div>
+	</li>
+</ul>

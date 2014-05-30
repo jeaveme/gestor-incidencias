@@ -1,0 +1,45 @@
+<form ng-submit="aplicar()" name="formIncidencia" class="form-horizontal">
+	<div class="control-group">
+		<label for="titulo" class="control-label">Título:</label>
+		<input type="text" id="titulo" ng-model="incidencia.titulo"
+		class="form-control" required></input>
+	</div>
+
+	<div class="control-group">
+		<label for="tipo" class="control-label">Tipo:</label>
+		<div class="controls">
+			<select ng-model="incidencia.tipo" id="tipo" class="form-control">
+				<option value="Mejora">Mejora</option>
+				<option value="Bug">Bug</option>
+			</select>
+		</div>
+	</div>
+
+	<div class="control-group" ng-hide="incidencia._id===undefined">
+		<label for="estado" class="control-label">Estado:</label>
+		<div class="controls">
+			<select ng-model="incidencia.estado" id="estado" class="form-control">
+				<option value="Abierta">Abierta</option>
+				<option value="Resuelta">Resuelta</option>
+			</select>
+		</div>
+	</div>
+
+	<div class="control-group">
+		<label class="control-label" for="autor">Autor:</label>
+		<div class="controls">
+			<input type="text" id="autor" ng-model="incidencia.autor"
+			class="form-control" required></input>
+		</div>
+	</div>
+
+	<div class="control-group">
+		<label class="control-label" for="descripcion">Descripción:</label>
+		<textarea ng-model="incidencia.descripcion" id="descripcion"
+		class="form-control" required></textarea>
+	</div>
+	<div class="capa-boton">
+		<button class="btn btn-primary" ng-disabled="formIncidencia.$invalid">{{incidencia._id===undefined?'Crear':'Modificar'}}</button>
+	</div>
+	
+</form>
