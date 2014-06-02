@@ -2,41 +2,55 @@
 
 /* https://github.com/angular/protractor/blob/master/docs/getting-started.md */
 
-describe('my app', function() {
+describe('Lista', function() {
 
-  browser.get('index.html');
-
-  it('should automatically redirect to /view1 when location hash/fragment is empty', function() {
-    expect(browser.getLocationAbsUrl()).toMatch("/view1");
-  });
+	beforeEach(function() {
+		browser.get('/');
+	});
 
 
-  describe('view1', function() {
+	it("debería filtrar las incidencias que no coinciden con el 'filtro'", function() {
+		element(by.model('filtro')).sendKeys('heartbleed');
+		expect(element.all(by.repeater('incidencia in incidencias')).count()).
+		toEqual(1);
+	});
 
-    beforeEach(function() {
-      browser.get('index.html#/view1');
-    });
-
-
-    it('should render view1 when user navigates to /view1', function() {
-      expect(element.all(by.css('[ng-view] p')).first().getText()).
-        toMatch(/partial for view 1/);
-    });
-
-  });
+	it("debería abrir el detalle de una incidencia", function() {
+		element(by.repeater('incidencia in incidencias').row(1).column('titulo')).click();
+		expect(element(by.binding('incidencia.estado')).getText()).toEqual("Estado: Abierta");
+	});
+});
 
 
-  describe('view2', function() {
+describe('Vista', function() {
 
-    beforeEach(function() {
-      browser.get('index.html#/view2');
-    });
+	beforeEach(function() {
+		browser.get('/#/ver/1');
+	});
 
 
-    it('should render view2 when user navigates to /view2', function() {
-      expect(element.all(by.css('[ng-view] p')).first().getText()).
-        toMatch(/partial for view 2/);
-    });
+	it("debería mostrarse cuando el usuario navega a '/#/ver/1'", function() {
+		expect(element(by.binding('incidencia.titulo')).getText()).toEqual("Título: Integración con Git");
+	});
 
-  });
+	it("debería abrir en modo edición una incidencia", function() {
+		element(by.partialButtonText('Editar')).click();
+		expect(element(by.model('incidencia.titulo')).getAttribute('value')) //getText() no funciona en inputs por un fallo en webdriver
+		.toContain('Git');
+	});
+
+	it("debería eliminar una incidencia", function() {
+		element(by.partialButtonText('Eliminar')).click();
+		expect(element.all(by.repeater('incidencia in incidencias')).count()).
+		toEqual(3);
+	});
+
+});
+
+describe('Edición', function() {
+	//TODO
+});
+
+describe('Nueva', function() {
+	//TODO
 });
