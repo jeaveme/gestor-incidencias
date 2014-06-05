@@ -87,7 +87,7 @@ app.post('/incidencias/:id', function(req, res) {
 //Eliminar una incidencia
 app.delete('/incidencias/:id', function(req, res) {
 	delete incidencias[req.params.id];
-	res.json(true);
+	res.json({"ok": true});
 });
 
 app.listen(port);

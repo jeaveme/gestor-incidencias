@@ -2,51 +2,46 @@
 
 /* Controllers */
 
-angular.module('meanIssue.controllers', [])
-.controller('ListaCtrl', ['$scope', '$http', function($scope, $http) {
-	$http({method: 'GET', url: '/incidencias'}).
-	success(function(data, status, headers, config) {
-		$scope.incidencias = data;
-	});
-}])
-.controller('VistaCtrl', ['$scope', '$http', '$location', 'idIncidencia',
-	function($scope, $http, $location, idIncidencia) {
-		$http({method: 'GET', url: '/incidencias/'+idIncidencia}).
-		success(function(data, status, headers, config) {
-			$scope.incidencia = data;
-			
-			$scope.modificar = function(){
-				$location.path('editar/'+data._id);
+angular.module('meanIssue.controllers', ['meanIssue.services'])
+.controller('ListaCtrl', ['$scope', 'IncidenciaServ',
+	function($scope, IncidenciaServ) {
+		$scope.incidencias = IncidenciaServ.listar();
+	}])
+.controller('VistaCtrl', ['$scope', 'IncidenciaServ', '$location', 'idIncidencia',
+	function($scope, IncidenciaServ, $location, idIncidencia) {
+		IncidenciaServ.get({ id: idIncidencia }, function(leida) {
+			$scope.incidencia = leida;
+	
+			$scope.modificar = function() {
+				$location.path('editar/' + leida._id);
 			};
-
-			$scope.eliminar = function(){
-				$http.delete('/incidencias/'+data._id).
-				success(function(data, status, headers, config) {
-					if(data==="true") $location.path('/');
+	
+			$scope.eliminar = function() {
+				IncidenciaServ.remove({id: idIncidencia}, function(eliminada) {
+					if (eliminada.ok === true) $location.path('/');
 				});
 			};
 		});
 	}])
-.controller('EdicionCtrl', ['$scope', '$http', '$location', 'idIncidencia',
-	function($scope, $http, $location, idIncidencia) {
-		$http({method: 'GET', url: '/incidencias/'+idIncidencia}).
-		success(function(data, status, headers, config) {
-			$scope.incidencia = data;
-
-			$scope.aplicar = function(){
-				$http.post('/incidencias/'+data._id, $scope.incidencia).
-				success(function(data, status, headers, config) {
-					$location.path('ver/'+data._id);
-				});
+.controller('EdicionCtrl', ['$scope', 'IncidenciaServ', '$location', 'idIncidencia',
+	function($scope, IncidenciaServ, $location, idIncidencia) {
+		IncidenciaServ.get({id: idIncidencia}, function(leida) {
+			$scope.incidencia = leida;
+	
+			$scope.aplicar = function() {
+				IncidenciaServ.save({ id: leida._id }, $scope.incidencia,
+					function(modificada) {
+						$location.path('ver/' + modificada._id);
+					});
 			};
 		});
 	}])
-.controller('NuevaCtrl', ['$scope', '$location', '$http', function($scope, $location, $http) {
-	$scope.incidencia = {estado:"Abierta", tipo: "Bug"};
-	$scope.aplicar = function(){
-		$http.post('/incidencias', $scope.incidencia).
-		success(function(data, status, headers, config) {
-			$location.path('ver/'+data._id);
-		});
-	};
-}]);
+.controller('NuevaCtrl', ['$scope', '$location', 'IncidenciaServ',
+	function($scope, $location, IncidenciaServ) {
+		$scope.incidencia = { estado: "Abierta", tipo: "Bug" };
+		$scope.aplicar = function() {
+			IncidenciaServ.save({}, $scope.incidencia, function(nueva) {
+				$location.path('ver/' + nueva._id);
+			});
+		};
+	}]);

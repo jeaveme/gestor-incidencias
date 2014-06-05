@@ -17,7 +17,7 @@ describe('Controlador', function(){
 
 		beforeEach(inject(function(_$httpBackend_, $rootScope, $controller) {
 			$httpBackend = _$httpBackend_;
-			$httpBackend.expectGET('/incidencias').
+			$httpBackend.expectGET('incidencias').
 			respond([
 			{
 				"_id": "0",
@@ -46,7 +46,7 @@ describe('Controlador', function(){
 		}));
 
 		it("debería cargar una lista 'incidencias' con 4 items", function() {
-			expect(scope.incidencias).toBeUndefined();
+			expect(scope.incidencias).toEqualData([]);
 			$httpBackend.flush();
 
 			expect(scope.incidencias.length).toEqual(4);
@@ -66,7 +66,7 @@ describe('Controlador', function(){
 
 		beforeEach(inject(function(_$httpBackend_, $rootScope, $controller, $location) {
 			$httpBackend = _$httpBackend_;
-			$httpBackend.expectGET('/incidencias/1').respond(incidencia);
+			$httpBackend.expectGET('incidencias/1').respond(incidencia);
 			location = $location;
 			scope = $rootScope.$new();
 			ctrl = $controller('VistaCtrl', {$scope: scope, $location: location, idIncidencia: 1});
@@ -82,7 +82,7 @@ describe('Controlador', function(){
 		it("debería eliminar la incidencia cuando se solicita", function() {
 			$httpBackend.flush();
 			expect(scope.incidencia).toBeTruthy();
-			$httpBackend.expectDELETE('/incidencias/1').respond("true");
+			$httpBackend.expectDELETE('incidencias/1').respond({"ok":true});
 			scope.eliminar();
 			$httpBackend.flush();
 			expect(location.path()).toEqual('/');
@@ -110,7 +110,7 @@ describe('Controlador', function(){
 		beforeEach(inject(function(_$httpBackend_, $rootScope, $controller, $location) {
 			$httpBackend = _$httpBackend_;
 			location = $location;
-			$httpBackend.expectGET('/incidencias/1').respond(incidencia);
+			$httpBackend.expectGET('incidencias/1').respond(incidencia);
 			scope = $rootScope.$new();
 			ctrl = $controller('EdicionCtrl', {$scope: scope, $location: location, idIncidencia: 1});
 		}));
@@ -120,7 +120,7 @@ describe('Controlador', function(){
 			$httpBackend.flush();
 			expect(scope.incidencia).toEqualData(incidencia);
 			scope.incidencia.estado = "Resuelta";
-			$httpBackend.expectPOST('/incidencias/1', scope.incidencia).respond(scope.incidencia);
+			$httpBackend.expectPOST('incidencias/1', scope.incidencia).respond(scope.incidencia);
 			scope.aplicar();
 			$httpBackend.flush();
 			expect(location.path()).toEqual('/ver/1');
@@ -142,7 +142,7 @@ describe('Controlador', function(){
 			httpBackend = $httpBackend;
 			location = $location;
 			ctrl = $controller('NuevaCtrl', {$scope: scope, idIncidencia: 1});
-			httpBackend.expectPOST('/incidencias', nueva).respond(respuesta);
+			httpBackend.expectPOST('incidencias', nueva).respond(respuesta);
 		}));
 
 		it("debería crear un objeto con la incidencia abierta", function() {
