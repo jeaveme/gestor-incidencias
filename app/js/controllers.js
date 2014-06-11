@@ -17,7 +17,13 @@ angular.module('meanIssue.controllers', ['meanIssue.services'])
 			};
 	
 			$scope.eliminar = function() {
+				/*Acción no get a nivel de clase
 				IncidenciaServ.remove({id: idIncidencia}, function(eliminada) {
+					if (eliminada.ok === true) $location.path('/');
+				});*/
+
+				//A nivel de instacia
+				leida.$remove(function(eliminada) {
 					if (eliminada.ok === true) $location.path('/');
 				});
 			};
@@ -29,10 +35,9 @@ angular.module('meanIssue.controllers', ['meanIssue.services'])
 			$scope.incidencia = leida;
 	
 			$scope.aplicar = function() {
-				IncidenciaServ.save({ id: leida._id }, $scope.incidencia,
-					function(modificada) {
+				leida.$save(function(modificada) {
 						$location.path('ver/' + modificada._id);
-					});
+				});
 			};
 		});
 	}])
