@@ -1,7 +1,7 @@
 <p><strong>Título:</strong> {{incidencia.titulo}}</p>
 <p><strong>Autor:</strong> {{incidencia.autor}}</p> 
 <p><strong>Tipo:</strong> {{incidencia.tipo}}</p> 
-<p><strong>Estado:</strong> {{incidencia.estado}}</p>
+<p><strong>Estado:</strong> {{incidencia.estado | estado}}</p>
 <strong>Descripción:</strong> <p class="well">{{incidencia.descripcion}}</p>
 <div class="capa-boton">
 	<button class="btn btn-default" ng-click="modificar()"><i class="glyphicon glyphicon-edit"></i> Editar</button>

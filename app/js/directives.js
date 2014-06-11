@@ -2,10 +2,9 @@
 
 /* Directives */
 
-
 angular.module('meanIssue.directives', []).
-  directive('appVersion', ['version', function(version) {
-    return function(scope, elm, attrs) {
-      elm.text(version);
-    };
-  }]);
+directive('enfocar', function() {
+	return function(scope, elm, attrs) {
+		elm[0].focus();
+	};
+});

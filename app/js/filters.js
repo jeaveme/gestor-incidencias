@@ -3,8 +3,10 @@
 /* Filters */
 
 angular.module('meanIssue.filters', []).
-  filter('interpolate', ['version', function(version) {
-    return function(text) {
-      return String(text).replace(/\%VERSION\%/mg, version);
-    };
-  }]);
+filter('estado', function() {
+	return function(input) {
+		if(input==="Resuelta") return input+" \u2713";
+		else if (input==="Abierta") return input+" \u2718";
+		else return "No válido ¿?";
+	};
+});
