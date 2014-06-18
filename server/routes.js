@@ -1,4 +1,4 @@
-var errores = new require('./errors'),
+var errores = require('./errors'),
 	Incidencia;
 
 module.exports = function(app, mongoose){
