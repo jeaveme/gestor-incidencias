@@ -17,7 +17,7 @@ describe('Lista', function() {
 
 	it("debería abrir el detalle de una incidencia", function() {
 		element(by.repeater('incidencia in incidencias').row(1).column('titulo')).click();
-		expect(element(by.binding('incidencia.estado')).getText()).toEqual("Estado: Abierta");
+		expect(element(by.binding('incidencia.estado')).getText()).toContain("Estado: Abierta");
 	});
 });
 

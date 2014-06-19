@@ -6,8 +6,16 @@ module.exports = function(app, mongoose){
 
 	//Sirve la lista de incidencias
 	app.get('/incidencias', function(req, res) {
-		Incidencia.find(function(err, lista){
+		Incidencia.find(function(err, incidencias){
 			if (err) throw err;
+			var lista = [];
+			for (var i in incidencias){
+				lista.push({
+					"_id": incidencias[i]._id,
+					"titulo": incidencias[i].titulo,
+					"autor": incidencias[i].autor
+				});
+			}
 			res.json(lista);
 		});
 	});
